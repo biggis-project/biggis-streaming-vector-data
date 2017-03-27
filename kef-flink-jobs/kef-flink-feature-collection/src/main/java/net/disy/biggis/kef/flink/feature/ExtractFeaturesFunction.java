@@ -1,8 +1,11 @@
-//Copyright (c) 2016 by Disy Informationssysteme GmbH
+// Copyright (c) 2016 by Disy Informationssysteme GmbH
 package net.disy.biggis.kef.flink.feature;
 
-import static net.disy.biggis.kef.flink.feature.MapJsonConstants.*;
+import static net.disy.biggis.kef.flink.feature.MapJsonConstants.FEATURES_ROOT;
+import static net.disy.biggis.kef.flink.feature.MapJsonConstants.FEATURE_GEOMETRY;
+import static net.disy.biggis.kef.flink.feature.MapJsonConstants.FEATURE_PROPERTIES;
 
+import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
@@ -12,28 +15,29 @@ import org.apache.flink.util.Collector;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class ExtractFeaturesFunction implements FlatMapFunction<ObjectNode, Tuple2<Integer, KefFeature>> {
-	private static final long serialVersionUID = -2522168019108009712L;
+public class ExtractFeaturesFunction
+    implements
+    FlatMapFunction<ObjectNode, Tuple2<String, KefFeature>> {
+  private static final long serialVersionUID = -2522168019108009712L;
 
-	@Override
-	public void flatMap(ObjectNode json, Collector<Tuple2<Integer, KefFeature>> out) throws Exception {
-		JsonNode features = json.get(FEATURES_ROOT);
-		StreamSupport.stream(features.spliterator(), false)
-				.map(feature -> Tuple2.of(createIdentifier(feature), getData(feature))).forEach(out::collect);
-	}
+  private final Function<JsonNode, String> featureIdGenerator;
 
-	private Integer createIdentifier(JsonNode feature) {
-		JsonNode psId = feature.get(FEATURE_PROPERTIES).get(FEATURE_PROPERTY_ID);
-		if (psId == null) {
-			System.out.println("Oh NO!");
-			return -1;
-		} else {
-			int id = psId.asInt(-1);
-			return Integer.valueOf(id);
-		}
-	}
+  public ExtractFeaturesFunction(Function<JsonNode, String> featureIdGenerator) {
+    this.featureIdGenerator = featureIdGenerator;
+  }
 
-	private KefFeature getData(JsonNode feature) {
-		return new KefFeature(feature.get(FEATURE_GEOMETRY), feature.get(FEATURE_PROPERTIES));
-	}
+  @Override
+  public void flatMap(ObjectNode json, Collector<Tuple2<String, KefFeature>> out)
+      throws Exception {
+    JsonNode features = json.get(FEATURES_ROOT);
+    StreamSupport
+        .stream(features.spliterator(), false)
+        .map(feature -> Tuple2.of(featureIdGenerator.apply(feature), getData(feature)))
+        .forEach(out::collect);
+  }
+
+  private KefFeature getData(JsonNode feature) {
+    return new KefFeature(feature.get(FEATURE_GEOMETRY), feature.get(FEATURE_PROPERTIES));
+  }
+
 }

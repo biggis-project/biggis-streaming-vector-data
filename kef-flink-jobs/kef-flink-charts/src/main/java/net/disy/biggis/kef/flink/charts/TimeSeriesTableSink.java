@@ -1,4 +1,4 @@
-//Copyright (c) 2016 by Disy Informationssysteme GmbH
+// Copyright (c) 2016 by Disy Informationssysteme GmbH
 package net.disy.biggis.kef.flink.charts;
 
 import static java.text.MessageFormat.format;
@@ -15,13 +15,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.OptionalInt;
 
-import net.disy.biggis.kef.flink.db.DbStreamTableSink;
-
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import net.disy.biggis.kef.flink.db.DbStreamTableSink;
 
 // NOT_PUBLISHED
 public class TimeSeriesTableSink extends DbStreamTableSink<Tuple2<SeriesIdentifier, JsonNode>> {
@@ -79,7 +79,9 @@ public class TimeSeriesTableSink extends DbStreamTableSink<Tuple2<SeriesIdentifi
     }
   }
 
-  private OptionalInt findSeriesDescription(Connection connection, SeriesIdentifier seriesIdentifier)
+  private OptionalInt findSeriesDescription(
+      Connection connection,
+      SeriesIdentifier seriesIdentifier)
       throws SQLException {
     try (PreparedStatement selectSeriesIdentifier = connection
         .prepareStatement(SELECT_SERIES_DESCRIPTION_ID)) {
@@ -91,7 +93,7 @@ public class TimeSeriesTableSink extends DbStreamTableSink<Tuple2<SeriesIdentifi
           OptionalInt identifier = of(foundSeries.getInt("IDENTIFIER"));
           String message = format(
               MSG_FOUND_SERIES_DESCRIPTION,
-              identifier,
+              identifier.getAsInt(),
               seriesIdentifier.getLaufendeNummer());
           LOG.debug(message);
           return identifier;
@@ -112,6 +114,9 @@ public class TimeSeriesTableSink extends DbStreamTableSink<Tuple2<SeriesIdentifi
       insertSeries.setInt(3, seriesIdentifier.getDataType().getIdentifier());
       insertSeries.executeUpdate();
       OptionalInt generatedKey = getGeneratedKey(insertSeries, 1);
+      if (!generatedKey.isPresent()) {
+        return findSeriesDescription(connection, seriesIdentifier);
+      }
       generatedKey.ifPresent(key -> logInsertedDescription(seriesIdentifier, key));
       return generatedKey;
     }

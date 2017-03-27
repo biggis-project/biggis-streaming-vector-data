@@ -1,0 +1,21 @@
+{
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [
+			7.70973184112551,
+			47.9991966148176
+		]
+	},
+	"properties": {
+		"wert": 0,
+		"farbe": "#AAAAAA",
+		"lf_id": "743",
+		"url": "/graphff?StartDate=01.01.2010&EndDate=31.12.2010&InsektID=4&LfID=743",
+		"charttitle": "Opfingen: Kirschessigfliege",
+		"chartcolor": "#ED5EC2",
+		"charttyp": "FF",
+		"gem_id": "2011",
+		"label": "Opfingen: Bodenlai\n (26.08.2010)"
+	}
+}

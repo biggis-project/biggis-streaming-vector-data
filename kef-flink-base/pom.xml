@@ -4,8 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>kef-flink-base</artifactId>
-	<packaging>jar</packaging>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.flink</groupId>

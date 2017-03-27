@@ -1,4 +1,4 @@
-﻿DROP TABLE IF EXISTS "kef_series_data";
+﻿DROP TABLE IF EXISTS "kef_series_data" CASCADE;
 DROP SEQUENCE IF EXISTS "kef_series_data_id_seq";
 
 CREATE SEQUENCE "kef_series_data_id_seq";

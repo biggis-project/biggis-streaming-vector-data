@@ -1,0 +1,20 @@
+{
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [
+			7.60491512158204,
+			48.1477596327006
+		]
+	},
+	"properties": {
+		"farbe": "#AAAAAA",
+		"ps_id": "2",
+		"url": "/graphkefeiablage?StartDate=01.01.2015&EndDate=31.12.2015&PSID=2&befallart=1",
+		"charttitle": "Sasbach: KEF-Eiablage",
+		"chartcolor": "#E388E8",
+		"charttyp": "KEFEI",
+		"gem_id": "1827",
+		"label": "Sasbach: Limberg\n (08.09.2015)"
+	}
+}
