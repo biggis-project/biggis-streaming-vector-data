@@ -24,15 +24,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-streaming-java_2.10</artifactId>
+			<artifactId>flink-streaming-java_${scala.version}</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-clients_2.10</artifactId>
+			<artifactId>flink-clients_${scala.version}</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-connector-kafka-0.9_2.10</artifactId>
+			<artifactId>flink-connector-kafka-${kafka.version}_${scala.version}</artifactId>
 		</dependency>
 
 		<dependency>
@@ -43,8 +43,9 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4.1209</version>
+			<version>42.2.0</version>
 		</dependency>
+
 	</dependencies>
 
 	<name>BigGIS Kirschessigfliege Data split FeatureCollection</name>

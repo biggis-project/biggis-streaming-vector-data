@@ -5,10 +5,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 import org.apache.flink.api.java.tuple.Tuple2;
+
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
 import org.postgresql.util.PGobject;
 
-import com.fasterxml.jackson.databind.JsonNode;
 
 import net.disy.biggis.kef.flink.db.DbStreamTableSink;
 
@@ -22,6 +24,7 @@ public class FeaturesTableSink extends DbStreamTableSink<Tuple2<String, KefFeatu
   @Override
   protected void execute(Connection connection, Tuple2<String, KefFeature> series)
       throws Exception {
+    System.out.println("Execute function");
     try (PreparedStatement insertData = connection.prepareStatement(INSERT_SERIES_DATA)) {
       String geomText = series.f1.getGeometry().toString();
       JsonNode coords = series.f1.getGeometry().get("coordinates");
@@ -29,6 +32,7 @@ public class FeaturesTableSink extends DbStreamTableSink<Tuple2<String, KefFeatu
       insertData.setObject(1, wrapJson(geomText));
       insertData.setObject(2, wrapJson(series.f1.getProperties().toString()));
       insertData.setString(3, realGeomText);
+      System.out.println("Insert data: " + insertData);
       insertData.execute();
     }
   }

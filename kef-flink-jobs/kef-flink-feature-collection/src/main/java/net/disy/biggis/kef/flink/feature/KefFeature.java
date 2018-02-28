@@ -1,8 +1,12 @@
 package net.disy.biggis.kef.flink.feature;
 
+
+
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
+
 import java.io.Serializable;
 
-import com.fasterxml.jackson.databind.JsonNode;
+
 
 public class KefFeature implements Serializable {
 	private static final long serialVersionUID = -7994428048977785889L;

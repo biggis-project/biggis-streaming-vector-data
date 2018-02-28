@@ -9,14 +9,16 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer09;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import net.disy.biggis.kef.flink.base.PropertiesUtil;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 
 public class SplitFeatureCollectionJob {
 
@@ -24,16 +26,16 @@ public class SplitFeatureCollectionJob {
 
   public static void main(String[] args) throws Exception {
     List<String> topics = getTopics();
-    FlinkKafkaConsumer09<ObjectNode> consumer = createKafkaConsumer(topics, args);
+    FlinkKafkaConsumer010<ObjectNode> consumer = createKafkaConsumer(topics, args);
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     DataStream<ObjectNode> kafkaStream = env.addSource(consumer);
+
     kafkaStream
         .flatMap(new ExtractFeaturesFunction(new FeatureIdGenerator()))
         .keyBy(0)
         .flatMap(new DuplicateFilter())
-        // .print();
         .addSink(new FeaturesTableSink());
-    env.execute();
+    env.execute("Split Feature Collection Job @KEF");
 
   }
 

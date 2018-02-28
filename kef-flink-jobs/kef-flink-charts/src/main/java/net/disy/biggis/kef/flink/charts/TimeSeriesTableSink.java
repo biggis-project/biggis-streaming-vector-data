@@ -15,11 +15,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.OptionalInt;
 
+
 import org.apache.flink.api.java.tuple.Tuple2;
+
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.JsonNode;
 
 import net.disy.biggis.kef.flink.db.DbStreamTableSink;
 

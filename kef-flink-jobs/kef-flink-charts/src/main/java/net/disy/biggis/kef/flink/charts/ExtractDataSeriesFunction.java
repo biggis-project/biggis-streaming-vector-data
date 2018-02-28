@@ -8,15 +8,15 @@ import static net.disy.biggis.kef.flink.charts.ChartsJsonConstants.TIME_SERIES_R
 
 import java.util.stream.StreamSupport;
 
+
 import net.disy.biggis.kef.flink.base.KeyedJsonDeserializationSchema;
 
-import org.apache.commons.math3.distribution.KolmogorovSmirnovDistribution;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.util.Collector;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.flink.util.Collector;
 
 public class ExtractDataSeriesFunction implements FlatMapFunction<ObjectNode, Tuple2<SeriesIdentifier, JsonNode>> {
 	private static final long serialVersionUID = -2522168019108009712L;

@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
+import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 
 // NOT_PUBLISHED
 public abstract class DbStreamTableSink<T> extends RichSinkFunction<T> {
@@ -21,7 +22,7 @@ public abstract class DbStreamTableSink<T> extends RichSinkFunction<T> {
   private IConnectionFactory connectionFactory;
 
   @Override
-  public void invoke(T value) throws Exception {
+  public void invoke(T value, SinkFunction.Context context) throws Exception {
     try (Connection connection = connectionFactory.getConnection()) {
       execute(connection, value);
     }

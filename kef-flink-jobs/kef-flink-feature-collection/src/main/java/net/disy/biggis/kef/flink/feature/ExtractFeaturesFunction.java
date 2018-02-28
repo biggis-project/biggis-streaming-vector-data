@@ -5,15 +5,18 @@ import static net.disy.biggis.kef.flink.feature.MapJsonConstants.FEATURES_ROOT;
 import static net.disy.biggis.kef.flink.feature.MapJsonConstants.FEATURE_GEOMETRY;
 import static net.disy.biggis.kef.flink.feature.MapJsonConstants.FEATURE_PROPERTIES;
 
+
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
+
+
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.flink.util.Collector;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ExtractFeaturesFunction
     implements

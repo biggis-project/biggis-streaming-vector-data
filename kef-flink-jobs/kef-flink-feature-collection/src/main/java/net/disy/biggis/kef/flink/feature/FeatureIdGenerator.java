@@ -8,9 +8,9 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.LoggerFactory;
 
 public class FeatureIdGenerator implements Function<JsonNode, String>, Serializable {
 

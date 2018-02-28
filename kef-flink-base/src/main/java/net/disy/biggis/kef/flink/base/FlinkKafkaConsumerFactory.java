@@ -8,24 +8,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.flink.api.java.utils.ParameterTool;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer09;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.flink.api.java.utils.ParameterTool;
+
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
+
 
 // NOT_PUBLISHED
 public final class FlinkKafkaConsumerFactory {
 
   private static final String KAFKA_PROPERTIES = "kafka.properties"; //$NON-NLS-1$
 
+   private static final String kafkaHost = System.getenv("KAFKA_HOST");
+  // not needed anymore (only required for Kafka 0.8)
+  // private static final String zkHost = System.getenv("ZK_HOST");
+
   private FlinkKafkaConsumerFactory() {
   }
 
-  public static FlinkKafkaConsumer09<ObjectNode> createKafkaConsumer(
+  public static FlinkKafkaConsumer010<ObjectNode> createKafkaConsumer(
       List<String> topics,
       String[] args) throws IOException {
     ParameterTool parameters = getParameters(args);
-    return new FlinkKafkaConsumer09<>(
+    return new FlinkKafkaConsumer010<>(
         topics,
         new KeyedJsonDeserializationSchema(),
         parameters.getProperties());
@@ -39,6 +45,12 @@ public final class FlinkKafkaConsumerFactory {
 
   private static ParameterTool loadParametersFromConfigFile() throws IOException {
     Properties fileProperties = loadPropertiesFromResource(KAFKA_PROPERTIES);
+
+    // Manipulate default properties
+    if (kafkaHost != null && !kafkaHost.isEmpty()) fileProperties.setProperty("bootstrap.servers", kafkaHost);
+    // not needed anymore (only required for Kafka 0.8)
+    // if (zkHost != null && !zkHost.isEmpty()) fileProperties.setProperty("zookeeper.connect", zkHost);
+
     @SuppressWarnings("unchecked")
     ParameterTool fileParameters = ParameterTool.fromMap((Map) fileProperties);
     return fileParameters;

@@ -4,12 +4,14 @@ package net.disy.biggis.kef.flink.base;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+
 import org.apache.flink.api.common.typeinfo.TypeInformation;
+
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.flink.streaming.util.serialization.KeyedDeserializationSchema;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 // NOT_PUBLISHED
 public class KeyedJsonDeserializationSchema implements KeyedDeserializationSchema<ObjectNode> {
