@@ -35,7 +35,7 @@ public class SplitFeatureCollectionJob {
         .keyBy(0)
         .flatMap(new DuplicateFilter())
         .addSink(new FeaturesTableSink());
-    env.execute("Split Feature Collection Job @KEF");
+    env.execute("Split Feature Collection Job @Vitimeo");
 
   }
 

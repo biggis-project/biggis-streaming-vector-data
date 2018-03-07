@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>net.disy.biggis</groupId>
 		<artifactId>kef-flink-parent</artifactId>
-		<version>0.1-SNAPSHOT</version>
+		<version>0.1</version>
 	</parent>
 
 	<modules>

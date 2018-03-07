@@ -72,6 +72,7 @@ public class TimeSeriesTableSink extends DbStreamTableSink<Tuple2<SeriesIdentifi
         insertData.setString(3, current.get(TIME_SERIES_DATE).asText());
         insertData.addBatch();
       }
+      System.out.println("Insert data: " + insertData);
       int[] inserted = insertData.executeBatch();
       if (LOG.isDebugEnabled()) {
         int sum = Arrays.stream(inserted).filter(i -> i >= 0).sum();

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import net.disy.biggis.kef.flink.base.PropertiesUtil;
@@ -14,10 +15,13 @@ import net.disy.biggis.kef.flink.base.PropertiesUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.apache.flink.api.common.restartstrategy.RestartStrategies;
+import org.apache.flink.api.common.time.Time;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 
@@ -32,16 +36,11 @@ public class ImportTimeSeriesJob {
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     DataStream<ObjectNode> kafkaStream = env.addSource(consumer);
 
-    DataStream<Tuple2<SeriesIdentifier, JsonNode>> stream = kafkaStream.flatMap(new ExtractDataSeriesFunction());
+    kafkaStream
+            .flatMap(new ExtractDataSeriesFunction())
+            .addSink(new TimeSeriesTableSink());
 
-    stream.print();
-    stream.addSink(new TimeSeriesTableSink());
-
-//    kafkaStream
-//            .flatMap(new ExtractDataSeriesFunction())
-//            .addSink(new TimeSeriesTableSink());
-
-    env.execute("Time Series Job @KEF");
+    env.execute("Time Series Job @Vitimeo");
 
   }
 

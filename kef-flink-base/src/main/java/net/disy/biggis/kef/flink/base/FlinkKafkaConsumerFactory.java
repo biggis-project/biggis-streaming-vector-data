@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 
 import org.apache.flink.api.java.utils.ParameterTool;
@@ -50,6 +51,8 @@ public final class FlinkKafkaConsumerFactory {
     if (kafkaHost != null && !kafkaHost.isEmpty()) fileProperties.setProperty("bootstrap.servers", kafkaHost);
     // not needed anymore (only required for Kafka 0.8)
     // if (zkHost != null && !zkHost.isEmpty()) fileProperties.setProperty("zookeeper.connect", zkHost);
+
+    fileProperties.put("group.id", "vitimeo-" + UUID.randomUUID());
 
     @SuppressWarnings("unchecked")
     ParameterTool fileParameters = ParameterTool.fromMap((Map) fileProperties);

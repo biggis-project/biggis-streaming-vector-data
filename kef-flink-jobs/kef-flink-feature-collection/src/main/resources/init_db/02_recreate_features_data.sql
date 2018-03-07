@@ -9,7 +9,7 @@ CREATE TABLE kef_features
     identifier INTEGER PRIMARY KEY DEFAULT nextval('kef_features_id_seq'),
     geom JSON,
     properties JSON,
-    realgeom GEOMETRY,
+    realgeom GEOMETRY(POINT; 4326),
     lfd_nummer integer NOT NULL,
     series_type integer NOT NULL
 );
