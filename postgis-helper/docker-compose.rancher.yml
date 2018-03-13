@@ -1,0 +1,22 @@
+version: '2'
+services:
+
+  vitimeo-postgis-helper:
+    image: registry.biggis.project.de/demo/vitimeo-postgis:helper
+    hostname: vitimeo
+    command: /start.sh truncate
+    environment:
+      POSTGIS_DB: postgis.storage
+      PGPASSWORD: biggis
+      USER_ID: 1000
+      USER_NAME: vitimeo
+      TIMEZONE: Europe/Berlin
+    labels:
+      io.rancher.container.pull_image: "always"
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.start_once: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"

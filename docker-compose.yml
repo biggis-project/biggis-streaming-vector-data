@@ -1,0 +1,15 @@
+version: '2.1'
+services:
+
+  vitimeo-deploy:
+    # Do NOT modify image tag. Generated automatically.
+   image: registry.biggis.project.de/demo/vitimeo-jobs:0.1
+    hostname: vitimeo
+    command: /opt/flink/deploy.sh all
+    environment:
+      # Do NOT modify PROJECT_VERSION. Generated automatically.
+      PROJECT_VERSION: 0.1
+      JOB_MANAGER_RPC_ADDRESS: flink-jobmanager
+      USER_ID: ${USER_ID:-1000}
+      USER_NAME: ${USER_NAME:-vitimeo}
+      TIMEZONE: Europe/Berlin

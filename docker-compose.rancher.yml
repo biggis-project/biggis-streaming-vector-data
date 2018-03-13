@@ -1,0 +1,24 @@
+version: '2'
+services:
+
+  vitimeo-jobs:
+    # Do NOT modify image tag. Generated automatically.
+   image: registry.biggis.project.de/demo/vitimeo-jobs:0.1
+    hostname: vitimeo
+    command: /opt/flink/deploy.sh all
+    environment:
+      # Do NOT modify PROJECT_VERSION. Generated automatically.
+      PROJECT_VERSION: 0.1
+      JOB_MANAGER_RPC_ADDRESS: flink-jobmanager.analytics
+      USER_ID: 1000
+      USER_NAME: vitimeo
+      TIMEZONE: Europe/Berlin
+    labels:
+      io.rancher.container.pull_image: "always"
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.start_once: true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"

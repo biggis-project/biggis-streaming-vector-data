@@ -19,8 +19,8 @@ public class FeaturesTableSink extends DbStreamTableSink<Tuple2<String, KefFeatu
 
   private static final long serialVersionUID = 6248407471911131794L;
 
-  //private static final String INSERT_SERIES_DATA = "INSERT INTO kef_features (geom, properties, realgeom) VALUES (?, " + "?, ST_GeomFromText(?, 4326))";
-  private static final String INSERT_SERIES_DATA = "INSERT INTO kef_features (geom, properties, realgeom) VALUES (?, " + "?, ST_GeomFromWKT(?))";
+  private static final String INSERT_SERIES_DATA = "INSERT INTO kef_features (geom, properties, realgeom) VALUES (?, " + "?, ST_GeomFromText(?, 4326))";
+  //private static final String INSERT_SERIES_DATA = "INSERT INTO kef_features (geom, properties, realgeom) VALUES (?, " + "?, ST_GeomFromWKT(?))";
 
   @Override
   protected void execute(Connection connection, Tuple2<String, KefFeature> series)
@@ -29,7 +29,7 @@ public class FeaturesTableSink extends DbStreamTableSink<Tuple2<String, KefFeatu
     try (PreparedStatement insertData = connection.prepareStatement(INSERT_SERIES_DATA)) {
       String geomText = series.f1.getGeometry().toString();
       JsonNode coords = series.f1.getGeometry().get("coordinates");
-      String realGeomText = "SRID=4326;POINT(" + coords.get(0) + " " + coords.get(1) + ")";
+      String realGeomText = "POINT(" + coords.get(0) + " " + coords.get(1) + ")";
       insertData.setObject(1, wrapJson(geomText));
       insertData.setObject(2, wrapJson(series.f1.getProperties().toString()));
       insertData.setString(3, realGeomText);

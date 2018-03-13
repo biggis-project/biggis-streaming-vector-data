@@ -7,13 +7,18 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.apache.flink.api.common.restartstrategy.RestartStrategies;
+import org.apache.flink.api.common.time.Time;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 
@@ -27,7 +32,13 @@ public class SplitFeatureCollectionJob {
   public static void main(String[] args) throws Exception {
     List<String> topics = getTopics();
     FlinkKafkaConsumer010<ObjectNode> consumer = createKafkaConsumer(topics, args);
+
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+    env.enableCheckpointing(5000);
+    env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
+    env.getCheckpointConfig().enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.DELETE_ON_CANCELLATION);
+    env.setRestartStrategy(RestartStrategies.fixedDelayRestart(3, Time.of(15, TimeUnit.SECONDS)));
+
     DataStream<ObjectNode> kafkaStream = env.addSource(consumer);
 
     kafkaStream
