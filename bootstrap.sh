@@ -38,10 +38,10 @@ function bootstrap {
     sed -i -e "s|JOB_CHARTS=(.*|JOB_CHARTS=(${jobs_charts})|g" deploy.sh
     sed -i -e "s|JOBSANDNAMES_CHARTS=(.*|JOBSANDNAMES_CHARTS=(${jobsandnames_charts})|g" deploy.sh
 
-    sed -i -e "s|image: registry.biggis.project.de/demo/vitimeo-jobs:.*|image: registry.biggis.project.de/demo/vitimeo-jobs:${PROJECT_VERSION}|g" docker-compose.yml
+    sed -i -e "s|image: registry.biggis.project.de/demo/vitimeteo-jobs:.*|image: registry.biggis.project.de/demo/vitimeteo-jobs:${PROJECT_VERSION}|g" docker-compose.yml
     sed -i -e "s|PROJECT_VERSION:.*|PROJECT_VERSION: ${PROJECT_VERSION}|g" docker-compose.yml
 
-    sed -i -e "s|image: registry.biggis.project.de/demo/vitimeo-jobs:.*|image: registry.biggis.project.de/demo/vitimeo-jobs:${PROJECT_VERSION}|g" docker-compose.rancher.yml
+    sed -i -e "s|image: registry.biggis.project.de/demo/vitimeteo-jobs:.*|image: registry.biggis.project.de/demo/vitimeteo-jobs:${PROJECT_VERSION}|g" docker-compose.rancher.yml
     sed -i -e "s|PROJECT_VERSION:.*|PROJECT_VERSION: ${PROJECT_VERSION}|g" docker-compose.rancher.yml
 }
 
@@ -49,11 +49,11 @@ function build_maven {
     mvn clean && mvn package -Pbuild-jar
 }
 function build_docker {
-    docker build -t registry.biggis.project.de/demo/vitimeo-jobs:${PROJECT_VERSION} .
+    docker build -t registry.biggis.project.de/demo/vitimeteo-jobs:${PROJECT_VERSION} .
 }
 
 function push_docker {
-    docker push registry.biggis.project.de/demo/vitimeo-jobs:${PROJECT_VERSION}
+    docker push registry.biggis.project.de/demo/vitimeteo-jobs:${PROJECT_VERSION}
 }
 
 bootstrap

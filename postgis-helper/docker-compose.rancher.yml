@@ -2,7 +2,7 @@ version: '2'
 services:
 
   vitimeo-postgis-helper:
-    image: registry.biggis.project.de/demo/vitimeo-postgis:helper
+    image: registry.biggis.project.de/demo/vitimeteo-postgis:helper
     hostname: vitimeo
     command: /start.sh truncate
     environment:

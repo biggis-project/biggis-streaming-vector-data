@@ -3,7 +3,7 @@ services:
 
   vitimeo-deploy:
     # Do NOT modify image tag. Generated automatically.
-   image: registry.biggis.project.de/demo/vitimeo-jobs:0.1
+   image: registry.biggis.project.de/demo/vitimeteo-jobs:0.1
     hostname: vitimeo
     command: /opt/flink/deploy.sh all
     environment:
